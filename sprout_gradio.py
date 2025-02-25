@@ -113,6 +113,8 @@ def download_video(video_data, selected_quality, progress=gr.Progress()):
             
         data = video_data["data"]
         title = video_data["title"]
+        # Clean the title by removing special characters that are problematic for filenames
+        clean_title = re.sub(r'[\\/*?:"<>|]', '', title)
         baseUrl = video_data["baseUrl"]
         playlists = video_data["playlists"]
         
@@ -181,8 +183,8 @@ def download_video(video_data, selected_quality, progress=gr.Progress()):
             if not os.path.exists(output_dir):
                 os.makedirs(output_dir)
                 
-            ts_name = os.path.join(output_dir, f"{title}.ts")
-            mp4_name = os.path.join(output_dir, f"{title}.mp4")
+            ts_name = os.path.join(output_dir, f"{clean_title}.ts")
+            mp4_name = os.path.join(output_dir, f"{clean_title}.mp4")
 
             # Merge and decrypt segments
             progress(0.8, desc="Merging segments...")
