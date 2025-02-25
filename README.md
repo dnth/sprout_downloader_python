@@ -13,7 +13,10 @@ pip install -r requirements.txt
 
 ## Usage
 
-To launch the Gradio UI, run the following command:
+> [!TIP]
+> For Windows, you can use the `run_sprout.bat` file to launch the application. 
+
+If you're not on Windows, you can launch the Gradio UI by running the following command:
 
 ```bash
 python sprout_gradio.py
