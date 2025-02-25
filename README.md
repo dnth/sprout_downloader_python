@@ -2,40 +2,23 @@
 
 ## Pre-requisites
 
-- Python 3.10+
-- FFMpeg
-
-## Installation
-
-```bash
-pip install -r requirements.txt
-```
+Install [pixi](https://pixi.sh/latest/#installation).
 
 ## Usage
 
-To launch the Gradio UI, run the following command:
+> [!TIP]
+> For Windows, you can use the `run_sprout.bat` file to launch the application. 
 
-```bash
-python sprout_gradio.py
-```
-
-To use without the Gradio UI
-
-```bash
-python sprout.py
-```
-
-To use with Pixi, first install [pixi](https://pixi.sh/latest/#installation)
+If you're not on Windows, run the following command to install the dependencies:
 
 ```bash
 cd sprout_downloader
 pixi install
 ```
 
-
-Then 
+Then run the application by running the following command:
 
 ```bash
-pixi run python ../sprout_gradio.py  
+pixi run python -m sprout_downloader
 ```
 
