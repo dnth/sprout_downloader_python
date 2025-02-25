@@ -25,3 +25,17 @@ To use without the Gradio UI
 python sprout.py
 ```
 
+To use with Pixi, first install [pixi](https://pixi.sh/latest/#installation)
+
+```bash
+cd sprout_downloader
+pixi install
+```
+
+
+Then 
+
+```bash
+pixi run python ../sprout_gradio.py  
+```
+
