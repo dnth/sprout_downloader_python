@@ -44,6 +44,7 @@ def create_ui():
     """Create the Gradio UI interface."""
     with gr.Blocks(title="Sprout Video Downloader") as app:
         gr.Markdown("# Sprout Video Downloader")
+        gr.Markdown("A simple tool to download Sprout videos. \n1. Paste the video URL, click Load Video. \n\t2. Select the quality you want to download. \n\t3. Click Download. \n\t4. The video will download to the downloads folder.")
         
         with gr.Row():
             url_input = gr.Textbox(label="Video URL", placeholder="Enter Sprout Video URL")
