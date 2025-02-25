@@ -1,11 +1,27 @@
-## Requirements:
-  * Python 3.7+
-  * FFMpeg(to convert *.ts files to *.mp4, not necessary)
+# Sprout Video Downloader
 
-## Usage:
-  * Download repo as zip. Unzip
-  * Run `pip install -r requirements.txt` in the script directory
-  * You can just run the script and follow the instructions, or run with url arg `sprout.py <url>`
+## Pre-requisites
 
-## Also:
-You can use tool with GUI written on C#: https://github.com/DumbCodeGenerator/sprout_downloader
+- Python 3.10+
+- FFMpeg
+
+## Installation
+
+```bash
+pip install -r requirements.txt
+```
+
+## Usage
+
+To launch the Gradio UI, run the following command:
+
+```bash
+python sprout_gradio.py
+```
+
+To use without the Gradio UI
+
+```bash
+python sprout.py
+```
+
