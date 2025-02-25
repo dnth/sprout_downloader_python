@@ -9,10 +9,11 @@ def app_logic(url, password=None, selected_quality=None, state=None):
         result = fetch_video_data(url, password)
         
         if "error" in result:
-            return None, None, result["error"], None, {"message": result["error"]}
+            raise gr.Error(result["error"])
             
         if "need_password" in result and result["need_password"]:
-            return None, None, "Password required", gr.update(visible=True), {"message": "Password required", "need_password": True}
+            gr.Warning("Password required")
+            return None, None, gr.update(visible=True), {"message": "Password required", "need_password": True}
             
         # Successfully fetched video data
         qualities = [p["quality"] for p in result["playlists"]]
@@ -21,24 +22,27 @@ def app_logic(url, password=None, selected_quality=None, state=None):
         embed_url = result["direct_preview_url"]
         iframe_html = f'<iframe src="{embed_url}" width="100%" height="400" frameborder="0" allowfullscreen></iframe>'
         
-        return iframe_html, gr.update(choices=qualities, value=qualities[-1], visible=True), "", gr.update(visible=False), {"video_data": result, "message": "Video loaded successfully"}
+        gr.Info("Video loaded successfully")
+        return iframe_html, gr.update(choices=qualities, value=qualities[-1], visible=True), gr.update(visible=False), {"video_data": result, "message": "Video loaded successfully"}
     
     # If we already have video data and a quality is selected, download the video
     if selected_quality:
         download_result = download_video(state["video_data"], selected_quality)
         
         if "error" in download_result:
-            return None, None, download_result["error"], None, state
+            raise gr.Error(download_result["error"])
             
         if "success" in download_result and download_result["success"]:
             file_path = download_result["file_path"]
             message = f"Video downloaded successfully to {file_path}"
             if "message" in download_result:
                 message += f". {download_result['message']}"
-                
-            return None, None, message, None, {"message": message, "file_path": file_path}
+            
+            gr.Success(message)
+            return None, None, None, {"message": message, "file_path": file_path}
     
-    return None, None, "Please select a quality", None, state
+    gr.Warning("Please select a quality")
+    return None, None, None, state
 
 def create_ui():
     """Create the Gradio UI interface."""
@@ -60,15 +64,13 @@ def create_ui():
             quality_dropdown = gr.Dropdown(label="Select Quality", choices=[], visible=False)
             download_btn = gr.Button("Download", visible=False)
         
-        status_text = gr.Textbox(label="Status", interactive=False)
-        
         state = gr.State({})
         
         # Event handlers
         submit_btn.click(
             fn=app_logic,
             inputs=[url_input, password_input, quality_dropdown, state],
-            outputs=[video_preview, quality_dropdown, status_text, password_input, state]
+            outputs=[video_preview, quality_dropdown, password_input, state]
         )
         
         quality_dropdown.change(
@@ -80,7 +82,7 @@ def create_ui():
         download_btn.click(
             fn=app_logic,
             inputs=[url_input, password_input, quality_dropdown, state],
-            outputs=[video_preview, quality_dropdown, status_text, password_input, state]
+            outputs=[video_preview, quality_dropdown, password_input, state]
         )
         
     return app 
